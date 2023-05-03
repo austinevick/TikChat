@@ -20,18 +20,20 @@ class MessageScreen extends StatefulWidget {
   State<MessageScreen> createState() => _MessageScreenState();
 }
 
-class _MessageScreenState extends State<MessageScreen> {
+class _MessageScreenState extends State<MessageScreen>
+    with SingleTickerProviderStateMixin {
   final itemScrollController = GroupedItemScrollController();
+  late final AnimationController animationController;
+  late final Animation<Offset> animation;
+
   @override
   void initState() {
+    animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 1000));
+    animation = Tween<Offset>(
+            begin: const Offset(0.0, 0.0), end: const Offset(0.0, -5.0))
+        .animate(animationController);
     super.initState();
-    if (mounted) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        // if (!widget.shouldUpdate) return;
-        // MessageController()
-        //     .updateMessageNotification(widget.seen!, widget.documentId);
-      });
-    }
   }
 
   @override
@@ -71,49 +73,73 @@ class _MessageScreenState extends State<MessageScreen> {
           body: Column(
             children: [
               Expanded(
-                child:
-                    ref.watch(messageStreamProvider(widget.user.userId)).when(
-                        data: (data) => StickyGroupedListView(
-                              stickyHeaderBackgroundColor:
-                                  const Color(0xff292d36),
-                              elements: data,
-                              groupBy: (message) =>
-                                  DateFormat.yMMMd().format(message.timeSent),
-                              groupSeparatorBuilder: (element) => SizedBox(
-                                height: 50,
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Container(
-                                    width: 100,
-                                    decoration: const BoxDecoration(
-                                        color: Colors.red,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10.0))),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        DateFormat.yMMMd()
-                                            .format(element.timeSent),
-                                        style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 9.5,
-                                            fontWeight: FontWeight.w700),
-                                        textAlign: TextAlign.center,
+                child: ref
+                    .watch(messageStreamProvider(widget.user.userId))
+                    .when(
+                        data: (data) =>
+                            NotificationListener<ScrollNotification>(
+                              onNotification: (scrollNotification) {
+                                setState(() {
+                                  if (scrollNotification
+                                      is ScrollStartNotification) {
+                                    animationController.forward();
+                                  } else if (scrollNotification
+                                      is ScrollUpdateNotification) {
+                                    animationController.forward();
+                                  } else if (scrollNotification
+                                      is ScrollEndNotification) {
+                                    animationController.reverse();
+                                  }
+                                });
+                                return true;
+                              },
+                              child: StickyGroupedListView(
+                                stickyHeaderBackgroundColor:
+                                    const Color(0xff292d36),
+                                elements: data,
+                                groupBy: (message) =>
+                                    DateFormat.yMMMd().format(message.timeSent),
+                                groupSeparatorBuilder: (element) =>
+                                    SlideTransition(
+                                  position: animation,
+                                  child: SizedBox(
+                                    height: 50,
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Container(
+                                        width: 100,
+                                        decoration: const BoxDecoration(
+                                            color: Colors.red,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10.0))),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            DateFormat.yMMMd()
+                                                .format(element.timeSent),
+                                            style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 9.5,
+                                                fontWeight: FontWeight.w700),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
+                                itemScrollController: itemScrollController,
+                                order: StickyGroupedListOrder.ASC,
+                                indexedItemBuilder: (context, chat, index) =>
+                                    MessageBubble(
+                                        isMe: chat.senderId ==
+                                            notifier.currentUserId,
+                                        type: chat.type,
+                                        timeSent: chat.timeSent,
+                                        avatar:
+                                            widget.user.name.substring(0, 1),
+                                        message: chat.textMessage),
                               ),
-                              itemScrollController: itemScrollController,
-                              order: StickyGroupedListOrder.ASC,
-                              indexedItemBuilder: (context, chat, index) =>
-                                  MessageBubble(
-                                      isMe: chat.senderId ==
-                                          notifier.currentUserId,
-                                      type: chat.type,
-                                      timeSent: chat.timeSent,
-                                      avatar: widget.user.name.substring(0, 1),
-                                      message: chat.textMessage),
                             ),
                         error: (e, t) => Center(
                               child: Text(e.toString()),

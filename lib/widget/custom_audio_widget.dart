@@ -179,7 +179,10 @@ class _CustomAudioWidgetState extends State<CustomAudioWidget> {
                 color: Colors.white,
                 onPressed: () {
                   Navigator.of(context).pop();
-
+                  if (path.isEmpty) {
+                    showToast('No audio was found');
+                    return;
+                  }
                   ref.read(messageController).sendFileMessage(
                       path, widget.receiverId, MessageType.audio);
                 },

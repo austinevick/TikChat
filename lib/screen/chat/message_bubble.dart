@@ -1,9 +1,9 @@
 import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:flutter/material.dart';
 import 'package:media_app/common/enum.dart';
+import 'package:media_app/sound_player/sound_player.dart';
 
 import '../../common/utils.dart';
-import 'custom_audio_player.dart';
 
 class MessageBubble extends StatelessWidget {
   final bool isMe;
@@ -67,12 +67,21 @@ class MessageBubble extends StatelessWidget {
         ],
       );
 
+  Widget buildSoundPlayer() => SoundPlayer(
+        audioSrc: message,
+        me: isMe,
+        senderName: avatar,
+        receiverName: avatar,
+        timeSent: dateFormatter(timeSent),
+      );
+
   Widget buildMessageWidget(MessageType type) {
     switch (type) {
       case MessageType.text:
         return buildTextMessage();
       case MessageType.audio:
-        return CustomAudioPlayer(path: message);
+        print(message);
+        return buildSoundPlayer();
       default:
         return Text(message);
     }
