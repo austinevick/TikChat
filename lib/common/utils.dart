@@ -68,11 +68,8 @@ void showBottomFlash({String? title, String? content}) {
   );
 }
 
-void animatePage(Widget child) => Navigator.of(navigatorKey.currentContext!)
-    .push(PageTransition(child: child, type: PageTransitionType.rightToLeft));
-
 Future<void> push(Widget child) => Navigator.of(navigatorKey.currentContext!)
-    .push(MaterialPageRoute(builder: (context) => child));
+    .push(PageTransition(child: child, type: PageTransitionType.rightToLeft));
 
 Future<void> pushReplacement(Widget child) =>
     Navigator.of(navigatorKey.currentContext!)

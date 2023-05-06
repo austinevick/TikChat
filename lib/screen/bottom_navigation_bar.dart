@@ -23,8 +23,6 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
   int i = 0;
   @override
   Widget build(BuildContext context) => Consumer(builder: (context, ref, _) {
-        final user = ref.watch(authViewController.notifier);
-
         return Scaffold(
           body: [
             const HomeView(),

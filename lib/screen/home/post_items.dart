@@ -32,7 +32,7 @@ class PostItems extends StatelessWidget {
                         builder: (ctx) => const SignInInfoDialog());
                     return;
                   }
-                  animatePage(MessageScreen(
+                  push(MessageScreen(
                     user: UserModel(
                         userId: post.ownerId,
                         documentId: post.documentId,

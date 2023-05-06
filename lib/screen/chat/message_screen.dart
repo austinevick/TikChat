@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:sticky_grouped_list/sticky_grouped_list.dart';
 import '../../common/utils.dart';
@@ -8,6 +9,7 @@ import '../../model/user_model.dart';
 import '../profile/other_user_profile.dart';
 import 'message_bubble.dart';
 import 'message_textfield.dart';
+import 'video_call_screen.dart';
 
 final messageStreamProvider = StreamProvider.family(
     (ref, String id) => ref.read(messageController).getAllOneToOneMessage(id));
@@ -66,6 +68,10 @@ class _MessageScreenState extends State<MessageScreen>
                                 widget.user.name,
                                 style: const TextStyle(fontSize: 17),
                               )),
+                          const Spacer(),
+                          IconButton(
+                              onPressed: () => push(const VideoCallScreen()),
+                              icon: const FaIcon(FontAwesomeIcons.video))
                         ],
                       ),
                     )),
@@ -99,30 +105,26 @@ class _MessageScreenState extends State<MessageScreen>
                                 elements: data,
                                 groupBy: (message) =>
                                     DateFormat.yMMMd().format(message.timeSent),
-                                groupSeparatorBuilder: (element) =>
-                                    SlideTransition(
-                                  position: animation,
-                                  child: SizedBox(
-                                    height: 50,
-                                    child: Align(
-                                      alignment: Alignment.center,
-                                      child: Container(
-                                        width: 100,
-                                        decoration: const BoxDecoration(
-                                            color: Colors.red,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10.0))),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            DateFormat.yMMMd()
-                                                .format(element.timeSent),
-                                            style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 9.5,
-                                                fontWeight: FontWeight.w700),
-                                            textAlign: TextAlign.center,
-                                          ),
+                                groupSeparatorBuilder: (element) => SizedBox(
+                                  height: 50,
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Container(
+                                      width: 100,
+                                      decoration: const BoxDecoration(
+                                          color: Colors.red,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10.0))),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          DateFormat.yMMMd()
+                                              .format(element.timeSent),
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 9.5,
+                                              fontWeight: FontWeight.w700),
+                                          textAlign: TextAlign.center,
                                         ),
                                       ),
                                     ),

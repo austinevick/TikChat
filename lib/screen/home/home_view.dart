@@ -5,6 +5,7 @@ import '../../controller/auth_view_controller.dart';
 import '../../widget/custom_appbar.dart';
 import '../../widget/drawer_widget.dart';
 import 'post_items.dart';
+import '../../widget/video_player_widget.dart';
 
 final postsStreamProvider =
     StreamProvider((ref) => ref.read(postController).getPosts());
@@ -51,7 +52,7 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
                       itemBuilder: (ctx, i) {
                         return Stack(
                           children: [
-                            // VideoPlayerWidget(url: data[i].videoUrl!),
+                            VideoPlayerWidget(url: data[i].videoUrl),
                             SafeArea(
                               minimum:
                                   const EdgeInsets.symmetric(horizontal: 16),

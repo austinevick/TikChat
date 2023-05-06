@@ -31,15 +31,14 @@ class _UploadViewState extends State<UploadView> {
       final n = ref.watch(postController);
       return Scaffold(
           body: Stack(
-        alignment: AlignmentDirectional.bottomStart,
         children: [
           VideoPlayerWidget(
             url: widget.path.path,
           ),
           Container(
-            height: 65,
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            color: Colors.black,
+            height: 100,
+            padding: const EdgeInsets.only(top: 100, left: 16, right: 16),
+            color: Colors.black45.withOpacity(0.3),
             child: CustomTextfield(
                 controller: caption,
                 readOnly: true,
@@ -68,7 +67,7 @@ class _UploadViewState extends State<UploadView> {
                   print(result);
                   setState(() => caption.text = result!);
                 }),
-          )
+          ),
         ],
       ));
     });
