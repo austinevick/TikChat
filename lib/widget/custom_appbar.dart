@@ -6,19 +6,37 @@ import 'create_post_bottom_sheet.dart';
 import 'signin_info_dialog.dart';
 
 class CustomAppBar extends StatelessWidget {
-  final GlobalKey<ScaffoldState> scaffoldKey;
-
-  const CustomAppBar({super.key, required this.scaffoldKey});
+  const CustomAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, _) {
+      final notifier = ref.watch(postController);
       return Container(
         padding: const EdgeInsets.only(left: 16, top: 20, right: 16),
         color: const Color(0xff11162a).withOpacity(0.2),
         height: 100,
         child: Row(
           children: [
+            notifier.percentage != '100%'
+                ? notifier.progress == 0
+                    ? const SizedBox.shrink()
+                    : Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          CircularProgressIndicator(
+                            value: notifier.progress,
+                            color: Colors.red,
+                            backgroundColor: Colors.grey,
+                          ),
+                          Center(
+                              child: Text(
+                            notifier.percentage,
+                            style: const TextStyle(fontSize: 10),
+                          )),
+                        ],
+                      )
+                : const SizedBox.shrink(),
             const Spacer(),
             IconButton(
               onPressed: () => showModalBottomSheet(

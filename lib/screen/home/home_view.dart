@@ -52,7 +52,7 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
                       itemBuilder: (ctx, i) {
                         return Stack(
                           children: [
-                            VideoPlayerWidget(url: data[i].videoUrl),
+                            // VideoPlayerWidget(url: data[i].videoUrl),
                             SafeArea(
                               minimum:
                                   const EdgeInsets.symmetric(horizontal: 16),
@@ -73,7 +73,7 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
                   loading: () => const Center(
                         child: CircularProgressIndicator(),
                       )),
-              CustomAppBar(scaffoldKey: scaffoldKey)
+              const CustomAppBar()
             ],
           ));
     });

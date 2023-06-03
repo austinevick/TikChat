@@ -5,6 +5,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../common/utils.dart';
 import '../../model/user_model.dart';
+import '../../notification_config.dart';
 import '../../widget/comment_bottom_sheet.dart';
 import '../chat/message_screen.dart';
 import '../../widget/signin_info_dialog.dart';
@@ -73,10 +74,11 @@ class PostItems extends StatelessWidget {
         IconButton(
             iconSize: 35,
             onPressed: () {
-              showMaterialModalBottomSheet(
-                  context: context,
-                  builder: (ctx) =>
-                      CommentBottomSheet(postId: post.documentId));
+              showUploadingNotification1('hello', "Hi", 20, 10);
+              // showMaterialModalBottomSheet(
+              //     context: context,
+              //     builder: (ctx) =>
+              //         CommentBottomSheet(postId: post.documentId));
             },
             icon: const Icon(Icons.comment)),
         Row(

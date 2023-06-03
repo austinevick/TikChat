@@ -16,7 +16,7 @@ class BottomNavigationBarScreen extends StatefulWidget {
 }
 
 class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
-  int i = 0;
+  int i = 1;
   @override
   Widget build(BuildContext context) => Consumer(builder: (context, ref, _) {
         return Scaffold(

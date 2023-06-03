@@ -14,15 +14,40 @@ Future<void> initLocalNotification() async =>
 
 void onDidReceiveNotificationResponse(NotificationResponse response) {}
 
-const AndroidNotificationDetails androidNotificationDetails =
-    AndroidNotificationDetails('0', 'post',
-        channelDescription: 'show post update',
-        importance: Importance.max,
-        priority: Priority.high,
-        ticker: 'ticker');
-const NotificationDetails notificationDetails =
-    NotificationDetails(android: androidNotificationDetails);
+void showUploadingNotification(
+    String title, String body, int maxProgress, int progress) async {
+  AndroidNotificationDetails androidNotificationDetails =
+      AndroidNotificationDetails(
+    '0',
+    'post',
+    channelDescription: 'show post update',
+    importance: Importance.max,
+    showProgress: true,
+    maxProgress: maxProgress,
+    progress: progress,
+    priority: Priority.max,
+  );
+  NotificationDetails notificationDetails =
+      NotificationDetails(android: androidNotificationDetails);
+  await flutterLocalNotificationsPlugin
+      .show(0, title, body, notificationDetails, payload: '');
+}
 
-void showNotification(String title, String body) async =>
-    await flutterLocalNotificationsPlugin
-        .show(0, title, body, notificationDetails, payload: '');
+void showUploadingNotification1(
+    String title, String body, int maxProgress, int progress) async {
+  AndroidNotificationDetails androidNotificationDetails =
+      AndroidNotificationDetails(
+    '0',
+    'post',
+    channelDescription: 'show post update',
+    importance: Importance.max,
+    showProgress: true,
+    maxProgress: maxProgress,
+    progress: progress,
+    priority: Priority.max,
+  );
+  NotificationDetails notificationDetails =
+      NotificationDetails(android: androidNotificationDetails);
+  await flutterLocalNotificationsPlugin
+      .show(0, title, body, notificationDetails, payload: '');
+}

@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:media_app/widget/button_loader.dart';
 import 'package:media_app/widget/custom_button.dart';
 import 'package:media_app/widget/custom_textfield.dart';
-import 'dart:isolate';
 import '../../common/utils.dart';
 import '../../controller/post_controller.dart';
 import '../../widget/video_player_widget.dart';

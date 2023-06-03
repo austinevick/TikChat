@@ -1,5 +1,3 @@
-import 'package:media_app/model/comment.dart';
-
 class Post {
   final String ownerId;
   final String documentId;

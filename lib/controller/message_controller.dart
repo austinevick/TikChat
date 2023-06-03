@@ -69,7 +69,9 @@ class MessageController {
     Reference ref =
         storage.ref().child('videos').child(DateTime.now().toIso8601String());
     UploadTask uploadTask = ref.putFile(File(file));
+
     TaskSnapshot snap = await uploadTask;
+
     String downloadUrl = await snap.ref.getDownloadURL();
     return downloadUrl;
   }
