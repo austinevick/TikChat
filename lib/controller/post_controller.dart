@@ -6,13 +6,12 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:media_app/common/utils.dart';
-import 'package:media_app/screen/home/home_view.dart';
-import 'package:uuid/uuid.dart';
-import '../model/comment.dart';
+import 'package:media_app/screen/bottom_navigation_bar.dart';
 import '../model/post.dart';
-import '../model/user_model.dart';
+import '../notification_config.dart';
 import '../widget/loading_dialog.dart';
 import 'auth_view_controller.dart';
+import 'dart:isolate';
 
 final postController =
     ChangeNotifierProvider.autoDispose((ref) => PostController());
@@ -22,18 +21,11 @@ class PostController extends ChangeNotifier {
 
   final storage = FirebaseStorage.instance;
   final auth = FirebaseAuth.instance;
-  final caption = TextEditingController();
-  String get currentUserId =>
-      auth.currentUser == null ? "" : auth.currentUser!.uid;
-  bool _isLoading = false;
-  bool _isVisible = true;
-  bool get isVisible => _isVisible;
-  bool get isLoading => _isLoading;
 
-  void setVisibility() {
-    _isVisible = !_isVisible;
-    notifyListeners();
-  }
+  String get currentUserId => auth.currentUser!.uid;
+  bool _isLoading = false;
+
+  bool get isLoading => _isLoading;
 
   void setLoadingValue(bool value) {
     _isLoading = value;
@@ -47,14 +39,15 @@ class PostController extends ChangeNotifier {
         storage.ref().child('videos').child(DateTime.now().toIso8601String());
     UploadTask uploadTask = ref.putFile(File(videoPath));
     TaskSnapshot snap = await uploadTask;
+
     String downloadUrl = await snap.ref.getDownloadURL();
     return downloadUrl;
   }
 
-  void uploadVideo(File file) async {
+  void uploadVideo(String caption, File file) async {
     try {
       String docId = collectionReference.doc().id;
-      LoadingDialog.show();
+
       final owner = await AuthViewController().getCurrentUserById();
       final url = await _uploadVideoToStorage(file.path);
       final post = Post(
@@ -64,19 +57,21 @@ class PostController extends ChangeNotifier {
           comment: [],
           owner: owner!.name,
           isFavorite: false,
-          caption: caption.text,
+          caption: caption,
           dateCreated: DateTime.now(),
           videoUrl: url);
-      await collectionReference
+
+      final data = await collectionReference
           .doc(currentUserId)
           .collection('posts')
           .doc(docId)
           .set(post.toMap(), SetOptions(merge: true))
-          .whenComplete(() => pushAndRemoveUntil(const HomeView()));
-      showToast('Your post was successful');
-      LoadingDialog.hide();
+          .whenComplete(() {
+        showNotification('Post uploaded', 'Your post was successful');
+        showBottomFlash(content: 'Your post was successful');
+      });
+      await Isolate.run(() => data);
     } catch (e) {
-      LoadingDialog.hide();
       showBottomFlash(content: e.toString());
       rethrow;
     }

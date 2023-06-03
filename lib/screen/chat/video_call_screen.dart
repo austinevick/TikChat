@@ -1,4 +1,3 @@
-import 'package:agora_uikit/controllers/session_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:agora_uikit/agora_uikit.dart';
 import 'package:media_app/widget/custom_button.dart';

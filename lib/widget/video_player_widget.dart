@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
-import 'custom_button.dart';
-
 class VideoPlayerWidget extends StatefulWidget {
   final String url;
   final double? iconSize;

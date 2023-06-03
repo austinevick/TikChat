@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../common/utils.dart';
 import '../controller/post_controller.dart';
-import '../screen/chat/chat_screen.dart';
 import '../screen/chat/message_screen.dart';
-import 'signin_info_dialog.dart';
 
 class MessageBadge extends StatelessWidget {
   const MessageBadge({super.key});

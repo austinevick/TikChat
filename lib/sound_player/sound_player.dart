@@ -76,7 +76,6 @@ class _SoundPlayerState extends State<SoundPlayer>
   double maxDurationForSlider = .0000001;
   bool _isPlaying = false, x2 = false, _audioConfigurationDone = false;
   int duration = 00;
-  String _remainingTime = '';
 
   AnimationController? _controller;
   Duration time = const Duration();

@@ -1,29 +1,28 @@
-import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-void setUpOneSignal() {
-  //Remove this method to stop OneSignal Debugging
-  OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+// initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
+const AndroidInitializationSettings initializationSettingsAndroid =
+    AndroidInitializationSettings('ic_launcher');
 
-  OneSignal.shared.setAppId("37dcecda-2508-4701-8f4c-70b8bb1cd9a7");
+const InitializationSettings initializationSettings =
+    InitializationSettings(android: initializationSettingsAndroid);
+Future<void> initLocalNotification() async =>
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onDidReceiveNotificationResponse: onDidReceiveNotificationResponse);
 
-// The promptForPushNotificationsWithUserResponse function will show the iOS or Android push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
-  OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
-    print("Accepted permission: $accepted");
-  });
-  OneSignal.shared.setNotificationWillShowInForegroundHandler(
-      (OSNotificationReceivedEvent event) {
-    // Will be called whenever a notification is received in foreground
-    // Display Notification, pass null param for not displaying the notification
-    event.complete(event.notification);
-  });
+void onDidReceiveNotificationResponse(NotificationResponse response) {}
 
-  OneSignal.shared
-      .setNotificationOpenedHandler((OSNotificationOpenedResult result) {
-    // Will be called whenever a notification is opened/button pressed.
-  });
+const AndroidNotificationDetails androidNotificationDetails =
+    AndroidNotificationDetails('0', 'post',
+        channelDescription: 'show post update',
+        importance: Importance.max,
+        priority: Priority.high,
+        ticker: 'ticker');
+const NotificationDetails notificationDetails =
+    NotificationDetails(android: androidNotificationDetails);
 
-  OneSignal.shared.setPermissionObserver((OSPermissionStateChanges changes) {
-    // Will be called whenever the permission changes
-    // (ie. user taps Allow on the permission prompt in iOS)
-  });
-}
+void showNotification(String title, String body) async =>
+    await flutterLocalNotificationsPlugin
+        .show(0, title, body, notificationDetails, payload: '');

@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:media_app/common/utils.dart';
 import 'package:media_app/model/user_model.dart';
 import 'package:media_app/screen/auth/signin_view.dart';
-import 'package:media_app/screen/home/home_view.dart';
 
 import '../screen/bottom_navigation_bar.dart';
 

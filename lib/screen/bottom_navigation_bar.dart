@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:media_app/screen/chat/chat_screen.dart';
-
-import '../common/utils.dart';
-import '../controller/auth_view_controller.dart';
 import '../widget/message_badge.dart';
-import 'auth/signin_view.dart';
 import 'home/home_view.dart';
 import 'profile/current_user_profile.dart';
 

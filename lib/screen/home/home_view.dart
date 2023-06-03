@@ -4,8 +4,8 @@ import 'package:media_app/controller/post_controller.dart';
 import '../../controller/auth_view_controller.dart';
 import '../../widget/custom_appbar.dart';
 import '../../widget/drawer_widget.dart';
-import 'post_items.dart';
 import '../../widget/video_player_widget.dart';
+import 'post_items.dart';
 
 final postsStreamProvider =
     StreamProvider((ref) => ref.read(postController).getPosts());
@@ -59,14 +59,8 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
                               child: Column(
                                 children: [
                                   const Spacer(),
-                                  AnimatedSwitcher(
-                                      duration:
-                                          const Duration(milliseconds: 2000),
-                                      child: notifier.isVisible
-                                          ? PostItems(
-                                              post: data[i],
-                                              postNotifier: notifier)
-                                          : const SizedBox.shrink()),
+                                  PostItems(
+                                      post: data[i], postNotifier: notifier),
                                 ],
                               ),
                             ),

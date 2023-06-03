@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../common/utils.dart';
 import '../controller/auth_view_controller.dart';
 import '../controller/post_controller.dart';
-import '../model/user_model.dart';
 import '../widget/custom_textfield.dart';
 import 'profile/current_user_profile.dart';
 import 'profile/other_user_profile.dart';

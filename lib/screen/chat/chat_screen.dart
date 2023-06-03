@@ -65,10 +65,10 @@ class _ChatScreenState extends State<ChatScreen> {
                         return ListTile(
                             onTap: () => push(MessageScreen(
                                   user: UserModel(
-                                    userId: chat.contactId,
-                                    documentId: chat.documentId,
-                                    name: chat.username,
-                                  ),
+                                      userId: chat.contactId,
+                                      documentId: chat.documentId,
+                                      name: chat.username,
+                                      isOnline: chat.isOnline),
                                 )),
                             subtitle: Text(chat.lastMessage),
                             trailing: Text(

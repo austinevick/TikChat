@@ -1,4 +1,3 @@
-import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:flutter/material.dart';
 import 'package:media_app/common/enum.dart';
 import 'package:media_app/sound_player/sound_player.dart';

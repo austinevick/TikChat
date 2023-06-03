@@ -28,11 +28,6 @@ class SignUpView extends ConsumerWidget {
                     style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
                   ),
                   const SizedBox(height: 25),
-                  const CircleAvatar(
-                    radius: 35,
-                    child: Icon(Icons.person, size: 30),
-                  ),
-                  const SizedBox(height: 25),
                   CustomTextfield(
                     controller: n.name,
                     hintText: 'Enter full name',
@@ -64,7 +59,7 @@ class SignUpView extends ConsumerWidget {
                     height: 40,
                     width: 200,
                     textColor: Colors.white,
-                    text: 'Login',
+                    text: 'Old Member? Login',
                     onPressed: () => push(const SignInView()),
                   )
                 ],

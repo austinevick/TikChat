@@ -28,11 +28,6 @@ class SignInView extends ConsumerWidget {
                     style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
                   ),
                   const SizedBox(height: 25),
-                  const CircleAvatar(
-                    radius: 35,
-                    child: Icon(Icons.person, size: 30),
-                  ),
-                  const SizedBox(height: 25),
                   CustomTextfield(
                     controller: n.email2,
                     hintText: 'Enter email',

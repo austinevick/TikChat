@@ -55,6 +55,7 @@ class MessageController {
         contacts.add(LastConversation(
             documentId: lastMessage.documentId,
             username: user.name,
+            isOnline: user.isOnline!,
             profileImageUrl: user.avatar!,
             contactId: lastMessage.contactId,
             timeSent: lastMessage.timeSent,
@@ -83,9 +84,7 @@ class MessageController {
           await firestore.collection('users').doc(receiverId).get();
       final receiverData = UserModel.fromMap(receiverDoc.data()!);
       final senderData = await AuthViewController().getCurrentUserById();
-
       String lastMessage;
-
       switch (messageType) {
         case MessageType.image:
           lastMessage = '📸 Photo message';
@@ -148,7 +147,6 @@ class MessageController {
           timeSent: timeSent,
           receiverId: receiverId);
     } catch (e) {
-      print(e);
       rethrow;
     }
   }
@@ -203,6 +201,7 @@ class MessageController {
         documentId: const Uuid().v1(),
         profileImageUrl: senderUserData.avatar!,
         username: senderUserData.name,
+        isOnline: senderUserData.isOnline!,
         contactId: senderUserData.userId,
         timeSent: timeSent,
         lastMessage: lastMessage);
@@ -217,6 +216,7 @@ class MessageController {
         documentId: const Uuid().v1(),
         profileImageUrl: receiverUserData.avatar!,
         username: receiverUserData.name,
+        isOnline: receiverUserData.isOnline!,
         contactId: receiverUserData.userId,
         timeSent: timeSent,
         lastMessage: lastMessage);

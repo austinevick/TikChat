@@ -57,8 +57,13 @@ class _MessageScreenState extends State<MessageScreen>
                       child: Row(
                         children: [
                           const BackButton(),
-                          CircleAvatar(
-                            child: Text(widget.user.name.substring(0, 1)),
+                          Stack(
+                            children: [
+                              CircleAvatar(radius: 15),
+                              CircleAvatar(
+                                child: Text(widget.user.name.substring(0, 1)),
+                              ),
+                            ],
                           ),
                           const SizedBox(width: 10),
                           InkWell(

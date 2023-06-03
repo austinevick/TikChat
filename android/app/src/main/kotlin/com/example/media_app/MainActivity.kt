@@ -1,4 +1,4 @@
-package com.example.media_app
+package tikchat.com
 
 import io.flutter.embedding.android.FlutterActivity
 
