@@ -44,6 +44,59 @@ class CommentController {
     }
   }
 
+  void replyComments(
+      String postId, String parentId, String replyingTo, String comment) async {
+    final user = await AuthViewController().getUsersAsFuture();
+    final documentId = const Uuid().v4();
+    final replies = Replies(
+        userId: user!.userId,
+        documentId: documentId,
+        parentId: parentId,
+        username: user.name,
+        avatar: '',
+        replyingTo: replyingTo,
+        comment: comment,
+        likes: [],
+        timeSent: DateTime.now());
+    await collectionReference
+        .collection("users")
+        .doc(currentUserId)
+        .collection('posts')
+        .doc(postId)
+        .collection('comments')
+        .doc(parentId)
+        .collection('replies')
+        .doc(documentId)
+        .set(replies.toMap());
+
+    await collectionReference
+        .collection("users")
+        .doc(currentUserId)
+        .collection('posts')
+        .doc(postId)
+        .collection('comments')
+        .doc(parentId)
+        .update({
+      'replies': FieldValue.arrayUnion([documentId])
+    });
+  }
+
+  Stream<List<Replies>> getReplies(String postId, String parentId) {
+    return collectionReference
+        .collection("users")
+        .doc(currentUserId)
+        .collection('posts')
+        .doc(postId)
+        .collection('comments')
+        .doc(parentId)
+        .collection('replies')
+        .snapshots()
+        .map((event) => event.docs
+            .where((element) => element.data()['parentId'] == parentId)
+            .map((e) => Replies.fromMap(e.data()))
+            .toList());
+  }
+
   Stream<List<Comment>> getComments(String postId) {
     return collectionReference
         .collection("users")

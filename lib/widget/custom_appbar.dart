@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../controller/post_controller.dart';
 import 'create_post_bottom_sheet.dart';
-import 'signin_info_dialog.dart';
 
 class CustomAppBar extends StatelessWidget {
   const CustomAppBar({super.key});

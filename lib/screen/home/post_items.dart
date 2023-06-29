@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:media_app/controller/post_controller.dart';
 import 'package:media_app/model/post.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-
 import '../../common/utils.dart';
 import '../../model/user_model.dart';
-import '../../notification_config.dart';
-import '../../widget/comment_bottom_sheet.dart';
 import '../chat/message_screen.dart';
 import '../../widget/signin_info_dialog.dart';
+import '../comments/comment_screen.dart';
 
 class PostItems extends StatelessWidget {
   final Post post;
@@ -73,13 +70,7 @@ class PostItems extends StatelessWidget {
         const SizedBox(width: 20),
         IconButton(
             iconSize: 35,
-            onPressed: () {
-              showUploadingNotification1('hello', "Hi", 20, 10);
-              // showMaterialModalBottomSheet(
-              //     context: context,
-              //     builder: (ctx) =>
-              //         CommentBottomSheet(postId: post.documentId));
-            },
+            onPressed: () => push(CommentScreen(postId: post.documentId)),
             icon: const Icon(Icons.comment)),
         Row(
           children: [
